@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Jabatan {
+  id       String    @id @default(uuid())
+  nama     String
+  eselon   String?
+  golongan String?
+  Pegawai  Pegawai[]
+}
+
+model Pegawai {
+  id           String       @id @default(uuid())
+  nip          String       @unique
+  nama         String
+  tempatLahir  String?
+  tanggalLahir DateTime?
+  jenisKelamin JenisKelamin
+  agama        Agama
+  alamat       String?
+  noHp         String?
+  npwp         String?
+  fotoPath     String?
+  unitKerjaId  String
+  jabatanId    String
+  Jabatan      Jabatan      @relation(fields: [jabatanId], references: [id])
+  UnitKerja    UnitKerja    @relation(fields: [unitKerjaId], references: [id])
+}
+
+model UnitKerja {
+  id      String    @id @default(uuid())
+  nama    String
+  kode    String    @unique
+  Pegawai Pegawai[]
+}
+
+model User {
+  id        String  @id @default(uuid())
+  email     String  @unique
+  password  String
+}
+
+enum Agama {
+  islam
+  kristen
+  katolik
+  hindu
+  buddha
+  konghucu
+}
+
+enum JenisKelamin {
+  male
+  female
+}
