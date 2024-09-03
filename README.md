@@ -15,21 +15,21 @@ Ikuti langkah-langkah di bawah ini untuk menginstal dan menjalankan proyek ini:
     
     ```bash
     cd tes-teknis-backend
-   ```
+    ```
 
 3.	Instalasi Dependensi
     Instal semua dependensi yang diperlukan menggunakan npm atau Yarn. Pilih salah satu perintah berikut:
 
     ```bash
     npm install
-   ```
+    ```
 
 4.	Konfigurasi Database
     Buat file konfigurasi .env di direktori root proyek Anda dan tambahkan variabel lingkungan berikut:
 
     ```bash
     DATABASE_URL="postgresql://username:password@localhost:5432/db_name"
-   ```
+     ```
 
 5.	Generate Prisma Schema
     Jalankan perintah berikut untuk meng-generate Prisma schema dan membuat migrasi database:
