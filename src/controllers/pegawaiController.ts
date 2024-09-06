@@ -4,7 +4,7 @@ import { NextFunction, Request, Response } from 'express';
 export const createPegawaiController = async (req: Request, res: Response, next: NextFunction) => {
     try{
         const createPegawai = await createPegawaiService(req.body);
-        res.status(201).json(createPegawai);
+        res.status(201).json({statusCode : 201, message : 'pegawai created',data : createPegawai});
 
     }catch (error){
         next(error);
@@ -14,7 +14,7 @@ export const createPegawaiController = async (req: Request, res: Response, next:
 export const getAllPegawaiController = async (req: Request, res: Response, next: NextFunction) => {
     try{
         const getAllPegawai = await getAllPegawaiService();
-        res.json(getAllPegawai);
+        res.status(200).json({statusCode : 200, message : 'Success get data pegawai',data: getAllPegawai});
     }catch (error){
         next(error);
     }

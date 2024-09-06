@@ -16,7 +16,7 @@ export const loginController = async (req: Request, res: Response, next: NextFun
       const { user, token } = await loginService(email, password);
 
       res.cookie('token', token, {
-        maxAge: 3600000,     
+        maxAge: 36000000,     
         sameSite: 'strict',  
         secure:true
         });
