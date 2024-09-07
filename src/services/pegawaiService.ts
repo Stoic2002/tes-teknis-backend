@@ -88,7 +88,6 @@ export const getAllPegawaiService = async (page: number = 1, pageSize: number = 
     // Menghitung total pegawai untuk menentukan jumlah halaman
     const totalPegawai = await prisma.pegawai.count({where});
 
-    // Mengembalikan data beserta informasi pagination
     return {
         statusCode : 200,
         message : 'success get all pegawai',
