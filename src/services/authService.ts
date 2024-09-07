@@ -23,8 +23,6 @@ export const registerService = async (data: any) => {
 
 }
 
-
-
 export const loginService = async (email: any, password: any) => {
     const user = await prisma.user.findUnique({ where: { email:email } });
     if (!user) {
@@ -37,7 +35,7 @@ export const loginService = async (email: any, password: any) => {
     }
     
     const secret_key = process.env.JWT_SECRET || 'secret';
-    const token = jwt.sign({id: user.id},secret_key, {expiresIn: '1h', algorithm: 'HS256'});
+    const token = jwt.sign({id: user.id},secret_key, {expiresIn: '1d', algorithm: 'HS256'});
   
     return { user, token };
 };

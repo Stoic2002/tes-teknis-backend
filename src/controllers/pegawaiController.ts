@@ -4,21 +4,14 @@ import { NextFunction, Request, Response } from 'express';
 export const createPegawaiController = async (req: Request, res: Response, next: NextFunction) => {
     try{
         const createPegawai = await createPegawaiService(req.body);
-        res.status(201).json({statusCode : 201, message : 'pegawai created',data : createPegawai});
+        res.status(201).json(createPegawai);
 
     }catch (error){
         next(error);
     }
 }
 
-export const getAllPegawaiController = async (req: Request, res: Response, next: NextFunction) => {
-    try{
-        const getAllPegawai = await getAllPegawaiService();
-        res.status(200).json({statusCode : 200, message : 'Success get data pegawai',data: getAllPegawai});
-    }catch (error){
-        next(error);
-    }
-}
+
 
 export const getByIdPegawaiController = async (req: Request, res: Response, next: NextFunction) => {
     try{
@@ -55,3 +48,22 @@ export const deletePegawaiController = async (req: Request, res: Response, next:
         next(error);
     }
 }
+
+export const getAllPegawaiController = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        // Mengambil parameter dari query, dan memberikan nilai default jika tidak ada
+        const page = parseInt(req.query.page as string) || 1;
+        const pageSize = parseInt(req.query.pageSize as string) || 6;
+        const search = (req.query.search as string) || '';
+        const unitKerja = (req.query.unitKerja as string) || '';
+
+        // Memanggil service dengan pagination, pencarian, dan filtering
+        const getAllPegawai = await getAllPegawaiService(page, pageSize, search, unitKerja);
+
+        res.status(200).json(getAllPegawai);
+    } catch (error) {
+        next(error);
+    }
+}
+
+
