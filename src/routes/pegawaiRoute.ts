@@ -1,13 +1,14 @@
 import express from 'express';
 import { createPegawaiController, getAllPegawaiController, getByIdPegawaiController, updatePegawaiController, deletePegawaiController } from '../controllers/pegawaiController'
-import auth from "../middlewares/auth";
+import {authMiddleware} from "../middlewares/auth";
+import { doubleCsrfProtection } from "../middlewares/csrfMiddleware"
 
 const router = express.Router();
 
-router.post('/pegawai', auth, createPegawaiController);
-router.get('/pegawai', getAllPegawaiController);
-router.get('/pegawai/:id', getByIdPegawaiController);
-router.put('/pegawai/:id', auth, updatePegawaiController);
-router.delete('/pegawai/:id', auth,  deletePegawaiController);
+router.post('/pegawai',doubleCsrfProtection, authMiddleware, createPegawaiController);
+router.get('/pegawai',authMiddleware, getAllPegawaiController);
+router.get('/pegawai/:id',authMiddleware, getByIdPegawaiController);
+router.put('/pegawai/:id',doubleCsrfProtection, authMiddleware, updatePegawaiController);
+router.delete('/pegawai/:id',doubleCsrfProtection, authMiddleware,  deletePegawaiController);
 
 export default router;

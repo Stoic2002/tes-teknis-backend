@@ -1,5 +1,7 @@
 import { registerService, loginService } from '../services/authService';
 import { NextFunction, Request, Response } from 'express';
+import { generateToken } from '../middlewares/csrfMiddleware';
+
 
 export const registerController = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -15,13 +17,15 @@ export const loginController = async (req: Request, res: Response, next: NextFun
       const { email, password } = req.body;
       const { user, token } = await loginService(email, password);
 
-      res.cookie('token', token, {
+      res.cookie('__sessionId', token, {
         maxAge: 36000000,     
         sameSite: 'strict',  
         secure:true
         });
 
-      res.json({ user, token });
+      const csrfToken = generateToken(req, res);
+
+      res.json({ user, token, csrfToken });
     } catch (error) {
       next(error);
     }
@@ -29,10 +33,15 @@ export const loginController = async (req: Request, res: Response, next: NextFun
 
   export const logoutController = (req: Request, res: Response, next: NextFunction) => {
     try {
-        res.cookie('token', '', {
+        res.cookie('__sessionId', '', {
             maxAge: 0,
             sameSite: 'strict',
             secure: true
+        });
+        res.cookie('__csrf_token','', {
+          maxAge: 0,
+          sameSite: 'strict',
+          secure: true
         });
         res.status(200).json({ message: 'Logout successful' });
     } catch (error) {

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import "dotenv/config"
 import jwt from 'jsonwebtoken';
 
-export default (req: Request, res: Response, next: NextFunction) => {
+export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];
     const secretKey = process.env.JWT_SECRET || 'secret';
